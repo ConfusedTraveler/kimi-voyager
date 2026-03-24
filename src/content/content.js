@@ -3,6 +3,10 @@
  * 注入到 Kimi 页面，提供增强功能
  */
 
+// 调试：确认内容脚本已加载
+console.log('🚀 Kimi Voyager content script loaded!');
+console.log('📍 URL:', window.location.href);
+
 import { FolderManager } from './features/folderManager.js';
 import { Timeline } from './features/timeline.js';
 import { PromptLibrary } from './features/promptLibrary.js';
