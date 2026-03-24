@@ -16,9 +16,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/yourusername/kimi-voyager/stargazers"><img src="https://img.shields.io/github/stars/yourusername/kimi-voyager?style=flat-square&logo=github" alt="GitHub stars"></a>
-  <a href="https://github.com/yourusername/kimi-voyager/releases"><img src="https://img.shields.io/github/v/release/yourusername/kimi-voyager?style=flat-square&logo=github" alt="Latest version"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/yourusername/kimi-voyager?style=flat-square" alt="License"></a>
+  <a href="https://github.com/ConfusedTraveler/kimi-voyager/stargazers"><img src="https://img.shields.io/github/stars/ConfusedTraveler/kimi-voyager?style=flat-square&logo=github" alt="GitHub stars"></a>
+  <a href="https://github.com/ConfusedTraveler/kimi-voyager/releases"><img src="https://img.shields.io/github/v/release/ConfusedTraveler/kimi-voyager?style=flat-square&logo=github" alt="Latest version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/ConfusedTraveler/kimi-voyager?style=flat-square" alt="License"></a>
 </p>
 
 ---
@@ -83,7 +83,7 @@
 
 #### Chrome / Edge / 其他 Chromium 浏览器
 
-1. 下载最新版本的 [kimi-voyager-chrome.zip](https://github.com/yourusername/kimi-voyager/releases/latest)
+1. 下载最新版本的 [kimi-voyager-chrome.zip](https://github.com/ConfusedTraveler/kimi-voyager/releases/latest)
 2. 解压下载的文件
 3. 打开浏览器，进入 `chrome://extensions/`
 4. 开启右上角的「开发者模式」
@@ -92,7 +92,7 @@
 
 #### Firefox
 
-1. 下载最新版本的 [kimi-voyager-firefox.zip](https://github.com/yourusername/kimi-voyager/releases/latest)
+1. 下载最新版本的 [kimi-voyager-firefox.zip](https://github.com/ConfusedTraveler/kimi-voyager/releases/latest)
 2. 打开 Firefox，进入 `about:addons`
 3. 点击齿轮图标，选择「从文件安装附加组件」
 4. 选择下载的 `.zip` 文件
@@ -138,7 +138,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/kimi-voyager.git
+git clone https://github.com/ConfusedTraveler/kimi-voyager.git
 cd kimi-voyager
 
 # 安装依赖
