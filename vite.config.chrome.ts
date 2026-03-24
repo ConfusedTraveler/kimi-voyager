@@ -88,6 +88,12 @@ export default defineConfig({
           copyDir('src/assets', 'dist/chrome/src/assets');
           console.log('✅ Assets copied to dist/chrome/src/assets/');
         }
+        
+        // 复制本地化文件
+        if (existsSync('_locales')) {
+          copyDir('_locales', 'dist/chrome/_locales');
+          console.log('✅ Locales copied to dist/chrome/_locales/');
+        }
       },
     },
   ],

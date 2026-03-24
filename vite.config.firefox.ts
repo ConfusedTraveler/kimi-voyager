@@ -107,6 +107,12 @@ export default defineConfig({
           copyDir('src/assets', 'dist/firefox/src/assets');
           console.log('✅ Assets copied to dist/firefox/src/assets/');
         }
+        
+        // 复制本地化文件
+        if (existsSync('_locales')) {
+          copyDir('_locales', 'dist/firefox/_locales');
+          console.log('✅ Locales copied to dist/firefox/_locales/');
+        }
       },
     },
   ],
