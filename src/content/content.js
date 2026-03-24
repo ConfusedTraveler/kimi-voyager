@@ -21,10 +21,45 @@ class KimiVoyager {
     if (this.initialized) return;
     
     console.log('🚀 Kimi Voyager initializing...');
+    console.log('📍 Current URL:', window.location.href);
+    
+    // 调试：检查页面元素
+    const debugElements = () => {
+      console.log('🔍 Debug: Looking for sidebar elements...');
+      console.log('  - [data-testid="conversation-list"]:', document.querySelector('[data-testid="conversation-list"]'));
+      console.log('  - .sidebar:', document.querySelector('.sidebar'));
+      console.log('  - aside:', document.querySelector('aside'));
+      console.log('  - nav:', document.querySelector('nav'));
+    };
     
     try {
-      // 等待页面加载完成
-      await waitForElement('[data-testid="conversation-list"]', 15000);
+      // 等待页面加载完成（使用多种选择器尝试）
+      let sidebar = null;
+      const selectors = [
+        '[data-testid="conversation-list"]',
+        '.sidebar',
+        'aside',
+        '[class*="sidebar"]',
+        'nav'
+      ];
+      
+      for (let i = 0; i < 10; i++) {
+        for (const selector of selectors) {
+          sidebar = document.querySelector(selector);
+          if (sidebar) {
+            console.log(`✅ Found sidebar with selector: ${selector}`);
+            break;
+          }
+        }
+        if (sidebar) break;
+        await new Promise(r => setTimeout(r, 500));
+      }
+      
+      if (!sidebar) {
+        console.warn('⚠️ Could not find sidebar, retrying in 2s...');
+        debugElements();
+        await new Promise(r => setTimeout(r, 2000));
+      }
       
       // 加载设置
       await this.loadSettings();

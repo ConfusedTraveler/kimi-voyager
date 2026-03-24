@@ -45,9 +45,30 @@ export class FolderManager {
   }
 
   createUI() {
-    // 查找 Kimi 的侧边栏
-    const sidebar = document.querySelector('[data-testid="conversation-list"]')?.parentElement;
-    if (!sidebar) return;
+    // 查找 Kimi 的侧边栏（尝试多种选择器）
+    const sidebarSelectors = [
+      '[data-testid="conversation-list"]',
+      '.sidebar',
+      'aside',
+      '[class*="sidebar"]',
+      '[class*="SideBar"]',
+      'nav'
+    ];
+    
+    let sidebar = null;
+    for (const selector of sidebarSelectors) {
+      const el = document.querySelector(selector);
+      if (el) {
+        sidebar = el.parentElement || el;
+        console.log(`📁 FolderManager: Found sidebar with selector: ${selector}`);
+        break;
+      }
+    }
+    
+    if (!sidebar) {
+      console.warn('📁 FolderManager: Could not find sidebar');
+      return;
+    }
 
     // 创建 Voyager 文件夹容器
     this.container = createElement('div', {
