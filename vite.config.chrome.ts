@@ -1,6 +1,23 @@
 import { defineConfig } from 'vite';
 import path from 'path';
-import { copyFileSync, mkdirSync, existsSync } from 'fs';
+import { copyFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'fs';
+
+// 递归复制目录的函数
+function copyDir(src: string, dest: string) {
+  if (!existsSync(dest)) {
+    mkdirSync(dest, { recursive: true });
+  }
+  const entries = readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      copyFileSync(srcPath, destPath);
+    }
+  }
+}
 
 export default defineConfig({
   resolve: {
@@ -49,15 +66,28 @@ export default defineConfig({
   },
   plugins: [
     {
-      name: 'copy-manifest',
+      name: 'copy-static-files',
       closeBundle() {
         // 确保目录存在
         if (!existsSync('dist/chrome')) {
           mkdirSync('dist/chrome', { recursive: true });
         }
+        
         // 复制 manifest.json
         copyFileSync('manifest.json', 'dist/chrome/manifest.json');
         console.log('✅ Manifest copied to dist/chrome/');
+        
+        // 复制静态样式文件
+        if (existsSync('src/styles')) {
+          copyDir('src/styles', 'dist/chrome/src/styles');
+          console.log('✅ Styles copied to dist/chrome/src/styles/');
+        }
+        
+        // 复制图标文件（如果有的话）
+        if (existsSync('src/assets')) {
+          copyDir('src/assets', 'dist/chrome/src/assets');
+          console.log('✅ Assets copied to dist/chrome/src/assets/');
+        }
       },
     },
   ],

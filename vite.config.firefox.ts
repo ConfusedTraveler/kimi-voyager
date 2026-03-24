@@ -1,6 +1,23 @@
 import { defineConfig } from 'vite';
 import path from 'path';
-import { copyFileSync, mkdirSync, existsSync, readFileSync, writeFileSync } from 'fs';
+import { copyFileSync, mkdirSync, existsSync, readFileSync, writeFileSync, readdirSync } from 'fs';
+
+// 递归复制目录的函数
+function copyDir(src: string, dest: string) {
+  if (!existsSync(dest)) {
+    mkdirSync(dest, { recursive: true });
+  }
+  const entries = readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      copyDir(srcPath, destPath);
+    } else {
+      copyFileSync(srcPath, destPath);
+    }
+  }
+}
 
 export default defineConfig({
   resolve: {
@@ -78,6 +95,18 @@ export default defineConfig({
         // 写入修改后的 manifest
         writeFileSync('dist/firefox/manifest.json', JSON.stringify(manifest, null, 2));
         console.log('✅ Firefox manifest created in dist/firefox/');
+        
+        // 复制静态样式文件
+        if (existsSync('src/styles')) {
+          copyDir('src/styles', 'dist/firefox/src/styles');
+          console.log('✅ Styles copied to dist/firefox/src/styles/');
+        }
+        
+        // 复制图标文件（如果有的话）
+        if (existsSync('src/assets')) {
+          copyDir('src/assets', 'dist/firefox/src/assets');
+          console.log('✅ Assets copied to dist/firefox/src/assets/');
+        }
       },
     },
   ],
