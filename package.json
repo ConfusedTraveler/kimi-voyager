@@ -1,0 +1,47 @@
+{
+  "name": "kimi-voyager",
+  "version": "1.0.0",
+  "description": "An all-in-one enhancement suite for Kimi AI - folder management, prompt library, chat export and more.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:chrome": "vite build --config vite.config.chrome.ts",
+    "build:firefox": "vite build --config vite.config.firefox.ts",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.ts",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "kimi",
+    "moonshot",
+    "ai",
+    "browser-extension",
+    "chrome-extension",
+    "firefox-addon",
+    "chat-management",
+    "prompt-library"
+  ],
+  "author": "Your Name",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/kimi-voyager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/kimi-voyager/issues"
+  },
+  "homepage": "https://github.com/yourusername/kimi-voyager#readme",
+  "devDependencies": {
+    "@types/chrome": "^0.0.254",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vite-plugin-web-extension": "^4.1.1"
+  },
+  "dependencies": {
+    "marked": "^11.1.1",
+    "dompurify": "^3.0.8"
+  }
+}
