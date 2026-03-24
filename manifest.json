@@ -14,7 +14,9 @@
   ],
   "host_permissions": [
     "https://kimi.moonshot.cn/*",
-    "https://kimi.moonshot.cn/chat/*"
+    "https://kimi.moonshot.cn/chat/*",
+    "https://kimi.com/*",
+    "https://kimi.com/chat/*"
   ],
   "background": {
     "service_worker": "src/background/background.js",
@@ -22,7 +24,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://kimi.moonshot.cn/*", "https://kimi.moonshot.cn/chat/*"],
+      "matches": [
+        "https://kimi.moonshot.cn/*",
+        "https://kimi.moonshot.cn/chat/*",
+        "https://kimi.com/*",
+        "https://kimi.com/chat/*"
+      ],
       "js": ["src/content/content.js"],
       "css": ["src/styles/content.css"],
       "run_at": "document_idle"
@@ -48,7 +55,7 @@
   "web_accessible_resources": [
     {
       "resources": ["src/assets/*", "src/components/*"],
-      "matches": ["https://kimi.moonshot.cn/*"]
+      "matches": ["https://kimi.moonshot.cn/*", "https://kimi.com/*"]
     }
   ]
 }
