@@ -65,13 +65,14 @@ export class Timeline {
   }
 
   updateMessages() {
-    const messageElements = document.querySelectorAll('[data-testid="conversation-turn"]');
+    // 使用 Kimi 实际的选择器（参考 Kimi-Polaris）
+    const messageElements = document.querySelectorAll('.chat-content-item');
     if (messageElements.length === this.messages.length) return;
 
     this.messages = Array.from(messageElements).map((el, index) => ({
       index,
       element: el,
-      role: el.querySelector('[data-testid="user-message"]') ? 'user' : 'assistant',
+      role: el.classList.contains('chat-content-item-user') ? 'user' : 'assistant',
       isStarred: el.dataset.starred === 'true'
     }));
 

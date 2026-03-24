@@ -26,21 +26,20 @@ class KimiVoyager {
     // 调试：检查页面元素
     const debugElements = () => {
       console.log('🔍 Debug: Looking for sidebar elements...');
-      console.log('  - [data-testid="conversation-list"]:', document.querySelector('[data-testid="conversation-list"]'));
-      console.log('  - .sidebar:', document.querySelector('.sidebar'));
-      console.log('  - aside:', document.querySelector('aside'));
-      console.log('  - nav:', document.querySelector('nav'));
+      console.log('  - .sidebar-nav:', document.querySelector('.sidebar-nav'));
+      console.log('  - .history-part:', document.querySelector('.history-part'));
+      console.log('  - .chat-info-item:', document.querySelector('.chat-info-item'));
+      console.log('  - .chat-content-item:', document.querySelector('.chat-content-item'));
     };
     
     try {
-      // 等待页面加载完成（使用多种选择器尝试）
+      // 等待页面加载完成（使用 Kimi 实际的选择器）
       let sidebar = null;
       const selectors = [
-        '[data-testid="conversation-list"]',
-        '.sidebar',
-        'aside',
+        '.sidebar-nav',
+        '.history-part',
         '[class*="sidebar"]',
-        'nav'
+        'aside'
       ];
       
       for (let i = 0; i < 10; i++) {
@@ -279,11 +278,14 @@ class KimiVoyager {
 
   getConversationData() {
     const messages = [];
-    const messageElements = document.querySelectorAll('[data-testid="conversation-turn"]');
+    // 使用 Kimi 实际的选择器（参考 Kimi-Polaris）
+    const messageElements = document.querySelectorAll('.chat-content-item');
     
     messageElements.forEach(el => {
-      const isUser = el.querySelector('[data-testid="user-message"]') !== null;
-      const contentEl = el.querySelector('[data-testid="message-content"]');
+      const isUser = el.classList.contains('chat-content-item-user');
+      const contentEl = el.querySelector('.user-content') || 
+                        el.querySelector('.markdown') ||
+                        el.querySelector('.message-content');
       
       messages.push({
         role: isUser ? 'user' : 'assistant',

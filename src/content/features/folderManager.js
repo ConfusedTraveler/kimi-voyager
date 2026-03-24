@@ -45,30 +45,15 @@ export class FolderManager {
   }
 
   createUI() {
-    // 查找 Kimi 的侧边栏（尝试多种选择器）
-    const sidebarSelectors = [
-      '[data-testid="conversation-list"]',
-      '.sidebar',
-      'aside',
-      '[class*="sidebar"]',
-      '[class*="SideBar"]',
-      'nav'
-    ];
-    
-    let sidebar = null;
-    for (const selector of sidebarSelectors) {
-      const el = document.querySelector(selector);
-      if (el) {
-        sidebar = el.parentElement || el;
-        console.log(`📁 FolderManager: Found sidebar with selector: ${selector}`);
-        break;
-      }
-    }
-    
-    if (!sidebar) {
-      console.warn('📁 FolderManager: Could not find sidebar');
+    // 查找 Kimi 的侧边栏（使用 Kimi 实际的选择器）
+    // 参考 Kimi-Polaris: 使用 .history-part 作为插入点
+    const historyPart = document.querySelector('.history-part');
+    if (!historyPart) {
+      console.warn('📁 FolderManager: Could not find .history-part');
       return;
     }
+    
+    console.log('📁 FolderManager: Found .history-part');
 
     // 创建 Voyager 文件夹容器
     this.container = createElement('div', {
@@ -79,8 +64,8 @@ export class FolderManager {
       ]
     });
 
-    // 插入到侧边栏顶部
-    sidebar.insertBefore(this.container, sidebar.firstChild);
+    // 插入到 history-part 之前（参考 Kimi-Polaris）
+    historyPart.parentElement.insertBefore(this.container, historyPart);
   }
 
   createHeader() {
@@ -394,16 +379,21 @@ export class FolderManager {
   }
 
   setupDragAndDrop() {
-    // 使 Kimi 的对话列表项可拖拽
+    // 使 Kimi 的对话列表项可拖拽（参考 Kimi-Polaris 使用 .chat-info-item）
     const observer = new MutationObserver(() => {
-      document.querySelectorAll('[data-testid="conversation-item"]').forEach(item => {
+      document.querySelectorAll('.sidebar-nav .chat-info-item').forEach(item => {
         if (!item.dataset.voyagerDraggable) {
           item.dataset.voyagerDraggable = 'true';
           item.draggable = true;
           
+          // 获取聊天 ID 和名称（参考 Kimi-Polaris）
+          const href = item.getAttribute('href') || '';
+          const match = href.match(/\/chat\/([^/?#]+)/);
+          const convId = match ? match[1] : '';
+          const nameEl = item.querySelector('.chat-name');
+          const title = nameEl ? nameEl.textContent.trim() : convId;
+          
           item.addEventListener('dragstart', (e) => {
-            const convId = item.getAttribute('data-conversation-id');
-            const title = item.textContent;
             e.dataTransfer.setData('application/json', JSON.stringify({
               type: 'conversation',
               id: convId,
@@ -465,8 +455,8 @@ export class FolderManager {
   }
 
   openConversation(conv) {
-    // 导航到对话
-    const convElement = document.querySelector(`[data-conversation-id="${conv.id}"]`);
+    // 导航到对话（参考 Kimi-Polaris）
+    const convElement = document.querySelector(`.sidebar-nav .chat-info-item[href*="${conv.id}"]`);
     if (convElement) {
       convElement.click();
     }

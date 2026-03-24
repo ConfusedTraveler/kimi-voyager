@@ -113,19 +113,22 @@ export class ExportManager {
 
   parseConversation() {
     const messages = [];
-    const messageElements = document.querySelectorAll('[data-testid="conversation-turn"]');
+    // 使用 Kimi 实际的选择器（参考 Kimi-Polaris）
+    const messageElements = document.querySelectorAll('.chat-content-item');
     
     messageElements.forEach(el => {
-      const isUser = el.querySelector('[data-testid="user-message"]') !== null;
-      const contentEl = el.querySelector('[data-testid="message-content"]');
-      const timeEl = el.querySelector('[data-testid="message-time"]');
+      const isUser = el.classList.contains('chat-content-item-user');
+      // 尝试多种内容选择器
+      const contentEl = el.querySelector('.user-content') || 
+                        el.querySelector('.markdown') ||
+                        el.querySelector('.message-content');
       
       if (contentEl) {
         messages.push({
           role: isUser ? 'user' : 'assistant',
           content: contentEl.textContent,
           htmlContent: contentEl.innerHTML,
-          timestamp: timeEl?.textContent || null
+          timestamp: null
         });
       }
     });
